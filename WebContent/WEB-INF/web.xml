@@ -195,7 +195,7 @@
     </init-param>
   </filter>
   <filter-mapping>
-    <filter-name>redirectFilter</filter-name>
+    <filter-name>authorizationEnforcer</filter-name>
     <url-pattern>/dodsC/*</url-pattern>
     <url-pattern>/dap4/*</url-pattern>
     <url-pattern>/fileServer/*</url-pattern>
