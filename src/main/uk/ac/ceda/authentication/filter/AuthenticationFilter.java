@@ -139,11 +139,11 @@ public class AuthenticationFilter extends AccessControlFilter
      */
     public void init(FilterConfig filterConfig) throws ServletException
     {
-        if (filterConfig != null)
-        {
-            this.setSessionCookieName(filterConfig.getInitParameter("sessionCookieName"));
-            this.setSecretKey(filterConfig.getInitParameter("secretKey"));
-        }
+        String cookieName = System.getProperty("session.cookie.name");
+        this.setSessionCookieName(cookieName);
+        
+        String cookieSecret = System.getProperty("session.cookie.secret");
+        this.setSecretKey(cookieSecret);
     }
     
     /**
