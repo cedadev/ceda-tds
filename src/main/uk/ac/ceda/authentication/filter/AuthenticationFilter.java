@@ -36,6 +36,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -139,11 +140,17 @@ public class AuthenticationFilter extends AccessControlFilter
      */
     public void init(FilterConfig filterConfig) throws ServletException
     {
-        String cookieName = System.getProperty("session.cookie.name");
-        this.setSessionCookieName(cookieName);
+        ServletContext servletContext = filterConfig.getServletContext();
         
-        String cookieSecret = System.getProperty("session.cookie.secret");
-        this.setSecretKey(cookieSecret);
+        String sessionCookieName = servletContext.getInitParameter("sessionCookieName");
+        if (sessionCookieName == null)
+            LOG.error("Missing context parameter: sessionCookieName");
+        this.setSessionCookieName(sessionCookieName);
+        
+        String sessionCookieSecret = servletContext.getInitParameter("sessionCookieSecret");
+        if (sessionCookieSecret == null)
+            LOG.error("Missing context parameter: sessionCookieSecret");
+        this.setSecretKey(sessionCookieSecret);
     }
     
     /**
