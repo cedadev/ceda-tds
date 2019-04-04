@@ -130,6 +130,12 @@ public class AuthenticationFilter extends AccessControlFilter
                 authenticateUser(request, userID);
             }
         }
+        else if (LOG.isDebugEnabled())
+        {
+            LOG.debug(String.format(
+                    "Session cookie (%s) not found. Skipping authentication.",
+                    this.sessionCookieName));
+        }
         
         // pass the request along the filter chain
         chain.doFilter(request, response);
@@ -142,15 +148,22 @@ public class AuthenticationFilter extends AccessControlFilter
     {
         ServletContext servletContext = filterConfig.getServletContext();
         
-        String sessionCookieName = servletContext.getInitParameter("sessionCookieName");
+        String sessionCookieName = servletContext.getInitParameter(
+                "sessionCookieName");
         if (sessionCookieName == null)
             LOG.error("Missing context parameter: sessionCookieName");
         this.setSessionCookieName(sessionCookieName);
         
-        String sessionCookieSecret = servletContext.getInitParameter("sessionCookieSecret");
+        String sessionCookieSecret = servletContext.getInitParameter(
+                "sessionCookieSecret");
         if (sessionCookieSecret == null)
             LOG.error("Missing context parameter: sessionCookieSecret");
         this.setSecretKey(sessionCookieSecret);
+        
+        if (sessionCookieName != null && sessionCookieSecret != null)
+            LOG.info(String.format(
+                    "Authentication Filter configured with cookie: %s",
+                    this.sessionCookieName));
     }
     
     /**
