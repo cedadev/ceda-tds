@@ -149,20 +149,22 @@
   <!-- Filter for authentication -->
   <filter>
     <filter-name>authenticationFilter</filter-name>
-    <filter-class>uk.ac.ceda.authentication.filter.AuthenticationFilter</filter-class>
+    <filter-class>esg.orp.app.CookieAuthenticationFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>authenticationFilter</filter-name>
-    <url-pattern>/dodsC/*</url-pattern>
-    <url-pattern>/dap4/*</url-pattern>
-    <url-pattern>/fileServer/*</url-pattern>
+    <url-pattern>/*</url-pattern>
   </filter-mapping>
 
 
   <!-- Filter for authorization -->
   <filter>
     <filter-name>authorizationFilter</filter-name>
-    <filter-class>uk.ac.ceda.authorization.filter.AuthorizationFilter</filter-class>
+    <filter-class>esg.orp.app.AuthorizationFilter</filter-class>
+    <init-param>
+      <param-name>authorizationServiceClass</param-name>
+      <param-value>esg.orp.app.SAMLAuthorizationServiceFilterCollaborator</param-value>
+    </init-param>
     <init-param>
       <param-name>authorizationServiceUrl</param-name>
       <param-value>https://sandstorm.ceda.ac.uk/authorisation-service/</param-value>
@@ -170,16 +172,14 @@
   </filter>
   <filter-mapping>
     <filter-name>authorizationFilter</filter-name>
-    <url-pattern>/dodsC/*</url-pattern>
-    <url-pattern>/dap4/*</url-pattern>
-    <url-pattern>/fileServer/*</url-pattern>
+    <url-pattern>/*</url-pattern>
   </filter-mapping>
 
 
   <!-- Filter for enforcing authorization -->
   <filter>
     <filter-name>authorizationEnforcer</filter-name>
-    <filter-class>uk.ac.ceda.authentication.filter.AuthorizationEnforcer</filter-class>
+    <filter-class>esg.orp.app.RedirectAuthorizationEnforcer</filter-class>
     <init-param>
       <!-- URL of an authentication service -->
       <param-name>authenticateUrl</param-name>
