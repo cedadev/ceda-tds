@@ -188,9 +188,17 @@
   </filter>
   <filter-mapping>
     <filter-name>authorizationEnforcer</filter-name>
+    <!-- HTTP download -->
+    <url-pattern>/fileServer/*</url-pattern>
+    <!-- OPeNDAP -->
     <url-pattern>/dodsC/*</url-pattern>
     <url-pattern>/dap4/*</url-pattern>
-    <url-pattern>/fileServer/*</url-pattern>
+    <!-- NetCDF Subsetting Service -->
+    <url-pattern>/ncss/*</url-pattern>
+    <!-- Metadata services -->
+    <url-pattern>/ncml/*</url-pattern>
+    <url-pattern>/uddc/*</url-pattern>
+    <url-pattern>/iso/*</url-pattern>
   </filter-mapping>
 
 
